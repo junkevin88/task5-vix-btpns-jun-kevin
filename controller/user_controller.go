@@ -7,31 +7,24 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"log"
 	"net/http"
 )
 
 func UserRegister(c *gin.Context) {
 	db := database.GetDB()
-	contentType := config.GetContentType(c)
-	// Log the request parameters
-	log.Printf("Request parameters: contentType=%s", contentType)
 
+	contentType := config.GetContentType(c)
+	_, _ = db, contentType
 	User := model.User{}
+
 	if contentType == appJSON {
 		c.ShouldBindJSON(&User)
 	} else {
 		c.ShouldBind(&User)
 	}
-	// Log the user data
-	log.Printf("User data: %#v", User)
 
 	err := db.Debug().Create(&User).Error
-
 	if err != nil {
-		// Log the error
-		log.Printf("Error creating user: %v", err)
-
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
 			"message": err.Error(),
@@ -39,9 +32,6 @@ func UserRegister(c *gin.Context) {
 
 		return
 	}
-
-	// Log the success
-	log.Printf("User created: %#v", User)
 
 	c.JSON(http.StatusCreated, gin.H{
 		"id":       User.ID,

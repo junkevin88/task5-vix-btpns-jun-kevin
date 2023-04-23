@@ -99,6 +99,7 @@ func UpdatePhoto(c *gin.Context) {
 		})
 		return
 	}
+	err = db.Model(&Photo).Updates(NewPhoto).Error
 
 	c.JSON(http.StatusCreated, gin.H{
 		"id":         Photo.ID,
@@ -125,6 +126,7 @@ func DeletePhoto(c *gin.Context) {
 		})
 		return
 	}
+	err = db.Delete(&Photo).Error
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Your photo has been successfully deleted",
