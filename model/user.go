@@ -14,7 +14,7 @@ type User struct {
 	Password  string     `gorm:"not null" json:"-" form:"password" valid:"required~Your password is required,minstringlength(8)~Password has to have a minimum length of 8 characters"`
 	Photos    []Photo    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" json:"-"`
 	CreatedAt time.Time  `gorm:"-,omitempty"`
-	UpdatedAt *time.Time `json:"updated_at,omitempty"`
+	UpdatedAt time.Time  `json:"updated_at,omitempty"`
 	DeletedAt *time.Time `json:"-,omitempty"`
 }
 
